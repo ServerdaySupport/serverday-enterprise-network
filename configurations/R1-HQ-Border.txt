@@ -1,0 +1,276 @@
+R1-HQ-Border>en
+R1-HQ-Border#show running-config
+Building configuration...
+
+Current configuration : 2220 bytes
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname R1-HQ-Border
+!
+R1-HQ-Border>en
+R1-HQ-Border#show running-config
+Building configuration...
+
+Current configuration : 2220 bytes
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname R1-HQ-Border
+!
+!
+!
+!
+!
+!
+!
+!
+no ip cef
+no ipv6 cef
+!
+!
+!
+username admin privilege 15 secret 5 $1$mERr$IU7uNUUokNCxaCJn8I5L6.
+!
+!
+license udi pid CISCO2911/K9 sn FTX1524J7I0-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip ssh version 2
+ip domain-name garcia.local
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ description Enlace-hacia-Internet
+ ip address 200.0.0.1 255.255.255.252
+ ip nat outside
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ description Zona-DMZ
+ ip address 172.16.100.1 255.255.255.0
+ ip nat inside
+ ip access-group POLITICA-DMZ in
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/2
+ description Enlace-hacia-R2
+ ip address 10.0.11.1 255.255.255.252
+ ip nat inside
+ duplex auto
+ speed auto
+!
+interface Serial0/0/0
+ description Enlace-hacia-Valencia
+ ip address 10.0.12.1 255.255.255.252
+ ip nat inside
+ clock rate 2000000
+!
+interface Serial0/0/1
+ description Enlace-hacia-Maracaibo
+ ip address 10.0.13.1 255.255.255.252
+ ip nat inside
+ clock rate 2000000
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router ospf 1
+ log-adjacency-changes
+ network 10.0.11.0 0.0.0.3 area 0
+ network 10.0.12.0 0.0.0.3 area 0
+ network 10.0.13.0 0.0.0.3 area 0
+ network 192.168.100.0 0.0.0.255 area 0
+ network 172.16.100.0 0.0.0.255 area 0
+ default-information originate
+!
+ip nat inside source list NAT-TRAFFIC interface GigabitEthernet0/0 overload
+ip classless
+ip route 0.0.0.0 0.0.0.0 GigabitEthernet0/0 
+!
+ip flow-export version 9
+!
+!
+ip access-list standard NAT-TRAFFIC
+ permit 192.168.10.0 0.0.0.255
+ permit 192.168.20.0 0.0.0.255
+ permit 192.168.30.0 0.0.0.255
+ permit 192.168.40.0 0.0.0.255
+ permit 192.168.50.0 0.0.0.255
+ permit 192.168.100.0 0.0.0.255
+ permit 192.168.200.0 0.0.0.255
+ permit 172.16.100.0 0.0.0.255
+ip access-list extended POLITICA-DMZ
+ permit icmp 192.168.0.0 0.0.255.255 172.16.100.0 0.0.0.255 echo
+ permit icmp 172.16.100.0 0.0.0.255 192.168.0.0 0.0.255.255 echo-reply
+ deny ip 172.16.100.0 0.0.0.255 192.168.0.0 0.0.255.255
+ permit ip any any
+!
+!
+!
+!
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login local
+ transport input ssh
+!
+!
+!
+end
+
+
+R1-HQ-Border#
+!
+!
+!
+!
+!
+!
+!
+no ip cef
+no ipv6 cef
+!
+!
+!
+username admin privilege 15 secret 5 $1$mERr$IU7uNUUokNCxaCJn8I5L6.
+!
+!
+license udi pid CISCO2911/K9 sn FTX1524J7I0-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip ssh version 2
+ip domain-name garcia.local
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ description Enlace-hacia-Internet
+ ip address 200.0.0.1 255.255.255.252
+ ip nat outside
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ description Zona-DMZ
+ ip address 172.16.100.1 255.255.255.0
+ ip nat inside
+ ip access-group POLITICA-DMZ in
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/2
+ description Enlace-hacia-R2
+ ip address 10.0.11.1 255.255.255.252
+ ip nat inside
+ duplex auto
+ speed auto
+!
+interface Serial0/0/0
+ description Enlace-hacia-Valencia
+ ip address 10.0.12.1 255.255.255.252
+ ip nat inside
+ clock rate 2000000
+!
+interface Serial0/0/1
+ description Enlace-hacia-Maracaibo
+ ip address 10.0.13.1 255.255.255.252
+ ip nat inside
+ clock rate 2000000
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router ospf 1
+ log-adjacency-changes
+ network 10.0.11.0 0.0.0.3 area 0
+ network 10.0.12.0 0.0.0.3 area 0
+ network 10.0.13.0 0.0.0.3 area 0
+ network 192.168.100.0 0.0.0.255 area 0
+ network 172.16.100.0 0.0.0.255 area 0
+ default-information originate
+!
+ip nat inside source list NAT-TRAFFIC interface GigabitEthernet0/0 overload
+ip classless
+ip route 0.0.0.0 0.0.0.0 GigabitEthernet0/0 
+!
+ip flow-export version 9
+!
+!
+ip access-list standard NAT-TRAFFIC
+ permit 192.168.10.0 0.0.0.255
+ permit 192.168.20.0 0.0.0.255
+ permit 192.168.30.0 0.0.0.255
+ permit 192.168.40.0 0.0.0.255
+ permit 192.168.50.0 0.0.0.255
+ permit 192.168.100.0 0.0.0.255
+ permit 192.168.200.0 0.0.0.255
+ permit 172.16.100.0 0.0.0.255
+ip access-list extended POLITICA-DMZ
+ permit icmp 192.168.0.0 0.0.255.255 172.16.100.0 0.0.0.255 echo
+ permit icmp 172.16.100.0 0.0.0.255 192.168.0.0 0.0.255.255 echo-reply
+ deny ip 172.16.100.0 0.0.0.255 192.168.0.0 0.0.255.255
+ permit ip any any
+!
+!
+!
+!
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login local
+ transport input ssh
+!
+!
+!
+end
+
+
+R1-HQ-Border#
