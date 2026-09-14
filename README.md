@@ -27,7 +27,7 @@ a Internet con NAT/PAT.
 
 
 ### Diseño inicial — V1
-![Topología V1](screenshots/v1-topologia-base.png)
+![Topología V1](screenshots/v1-topologia-general.png)
 
 ### Red completa operativa — V8
 ![Topología Final](screenshots/v8-topologia-final.png)
